@@ -9,12 +9,16 @@ var thisTime = 180; //secondi allo stopTimer
 var testo = 180; //variabile testo this countdown
 
 var playAllVideo = false; //bouleana legata al countdown (play/stop)
-let videoGoal;
-let videoGoalStart = 179; //definisci quando inizia video
-let videoGoalStop = 170; //definisci quando finisce video
+let videoAction;
+let videoActionStart = 180; //definisci quando inizia video
+let videoActionStop = 0; //definisci quando finisce video
 let videoCorner;
-let videoCornerStart = 165; //definisci quando inizia video
-let videoCornerStop = 160;  //definisci quando finisce video
+let videoCornerStart = 175; //definisci quando inizia video
+let videoCornerStop = 170; //definisci quando finisce video
+let videoGoal;
+let videoGoalStart = 165; //definisci quando inizia video
+let videoGoalStop = 160; //definisci quando finisce video
+
 
 // SERVER
 socket.on("connect", newConnection); //quando mi connetto, chiama funzione newConnection
@@ -48,6 +52,8 @@ function setup() {
   btn3.mouseClicked(resetTimer);
 
   // video
+  videoAction = createVideo('assets/action.mp4');
+  videoAction.hide();
   videoGoal = createVideo('assets/goal.mp4');
   videoGoal.hide();
   videoCorner = createVideo('assets/corner.mp4');
@@ -63,23 +69,27 @@ function draw() {
   textFont('Roboto Mono');
   textAlign(CENTER);
   fill("black");
-  text(testo, width / 2, height / 2 + 15);
+  text(testo, width / 2 + 50, height / 2 + 15);
   pop()
   // text fine partita
   if (gap < 0) {
     testo = "finish"
   }
   //video
+  if (testo < videoActionStart && testo > videoActionStop) {
+    imageMode(CENTER);
+    image(videoAction, 180, height / 2, 160 * 2, 100 * 2);
+  }
   if (testo < videoGoalStart && testo > videoGoalStop) {
     imageMode(CENTER);
-    image(videoGoal, 300, height / 2, 160 * 2, 100 * 2);
+    image(videoGoal, 180, height / 2, 160 * 2, 100 * 2);
   }
   if (testo < videoCornerStart && testo > videoCornerStop) {
     imageMode(CENTER);
-    image(videoCorner, 300, height / 2, 160 * 2, 100 * 2);
+    image(videoCorner, 180, height / 2, 160 * 2, 100 * 2);
   }
 
-  toggleVid();
+  toggleVid(); //check funzione play/stop
 
   //invia this countdown
   socket.emit("testoOut", testo);
@@ -120,9 +130,18 @@ function resetTimer() {
 // plays or pauses the video depending on current state
 function toggleVid() {
   if (playAllVideo == false) {
+    videoAction.pause();
     videoGoal.pause();
     videoCorner.pause();
-  } else if (playAllVideo == true) {
+  }
+    else if (playAllVideo == true) {
+    if (testo < videoActionStart && testo > videoActionStop) {
+      videoAction.loop()
+    };
+    if ((testo < videoGoalStart && testo > videoGoalStop) ||
+      (testo < videoCornerStart && testo > videoCornerStop)) {
+      videoAction.pause()
+    };
     if (testo < videoGoalStart && testo > videoGoalStop) {
       videoGoal.loop()
     };
