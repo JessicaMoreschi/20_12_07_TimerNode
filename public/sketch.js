@@ -8,6 +8,14 @@ var runningTime = 0; //secondi che scorrono
 var thisTime = 180; //secondi allo stopTimer
 var testo = 180; //variabile testo this countdown
 
+var playAllVideo = false; //bouleana legata al countdown (play/stop)
+let videoGoal;
+let videoGoalStart = 179; //definisci quando inizia video
+let videoGoalStop = 170; //definisci quando finisce video
+let videoCorner;
+let videoCornerStart = 165; //definisci quando inizia video
+let videoCornerStop = 160;  //definisci quando finisce video
+
 // SERVER
 socket.on("connect", newConnection); //quando mi connetto, chiama funzione newConnection
 socket.on("startTimer", startTimer); //ricezione other coundown
@@ -38,6 +46,12 @@ function setup() {
   btn3 = createButton("Reset Time");
   btn3.position(width / 2 + 100, height / 2 + 25);
   btn3.mouseClicked(resetTimer);
+
+  // video
+  videoGoal = createVideo('assets/goal.mp4');
+  videoGoal.hide();
+  videoCorner = createVideo('assets/corner.mp4');
+  videoCorner.hide();
 }
 
 
@@ -55,6 +69,18 @@ function draw() {
   if (gap < 0) {
     testo = "finish"
   }
+  //video
+  if (testo < videoGoalStart && testo > videoGoalStop) {
+    imageMode(CENTER);
+    image(videoGoal, 300, height / 2, 160 * 2, 100 * 2);
+  }
+  if (testo < videoCornerStart && testo > videoCornerStop) {
+    imageMode(CENTER);
+    image(videoCorner, 300, height / 2, 160 * 2, 100 * 2);
+  }
+
+  toggleVid();
+
   //invia this countdown
   socket.emit("testoOut", testo);
 }
@@ -69,6 +95,8 @@ function startTimer() {
     runningTime = Math.floor((gap / 1000)); // Time calculations for seconds
     testo = runningTime //setta variabile time
   }, 1000);
+
+  playAllVideo = true;
 }
 
 function stopTimer() {
@@ -76,6 +104,8 @@ function stopTimer() {
   thisTime = runningTime; //registra secondo allo stop
   testo = thisTime; //visualizza secondo allo stop
   countDown = new Date().getTime() + (thisTime * 1000); //+1000=+1s
+
+  playAllVideo = false;
 }
 
 function resetTimer() {
@@ -83,4 +113,21 @@ function resetTimer() {
   thisTime = 180; //resetta countdown
   testo = thisTime; //visualizza countdown
   countDown = new Date().getTime() + (thisTime * 1000); //+1000=+1s
+
+  playAllVideo = false;
+}
+
+// plays or pauses the video depending on current state
+function toggleVid() {
+  if (playAllVideo == false) {
+    videoGoal.pause();
+    videoCorner.pause();
+  } else if (playAllVideo == true) {
+    if (testo < videoGoalStart && testo > videoGoalStop) {
+      videoGoal.loop()
+    };
+    if (testo < videoCornerStart && testo > videoCornerStop) {
+      videoCorner.loop()
+    };
+  }
 }
