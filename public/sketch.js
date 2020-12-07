@@ -51,6 +51,12 @@ function setup() {
   btn3.position(width / 2 + 100, height / 2 + 25);
   btn3.mouseClicked(resetTimer);
 
+  //button other page
+  var btn4;
+  btn4 = createButton("Other page");
+  btn4.position(width / 2 + 100, height / 2 + 100);
+  btn4.mouseClicked(openOtherPage);
+
   // video
   videoAction = createVideo('assets/action.mp4');
   videoAction.hide();
@@ -149,4 +155,8 @@ function toggleVid() {
       videoCorner.loop()
     };
   }
+}
+
+function openOtherPage(){
+  window.open('http://localhost:3000/index2.html')
 }
