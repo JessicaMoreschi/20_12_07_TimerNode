@@ -6,7 +6,7 @@ var countDown;
 var gap; //gap tra countDown e Now
 var runningTime = 0; //secondi che scorrono
 var thisTime = 180; //secondi allo stopTimer
-var testo = 0; //variabile testo this countdown
+var testo = 180; //variabile testo this countdown
 
 // SERVER
 socket.on("connect", newConnection); //quando mi connetto, chiama funzione newConnection
@@ -49,8 +49,7 @@ function draw() {
   textFont('Roboto Mono');
   textAlign(CENTER);
   fill("black");
-  text("this countdown:", width / 2, height / 2);
-  text(testo, width / 2, height / 2 + 25);
+  text(testo, width / 2, height / 2 + 15);
   pop()
   // text fine partita
   if (gap < 0) {

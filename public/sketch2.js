@@ -1,7 +1,7 @@
 // SERVER
 let socket = io(); //setting server
 // SKETCH
-var testo2 = 0; //variabile testo other countdown
+var testo = 0; //variabile testo other countdown
 
 // SERVER
 socket.on("connect", newConnection); //quando mi connetto, chiama funzione newConnection
@@ -42,25 +42,23 @@ function draw() {
   textFont('Roboto Mono');
   textAlign(CENTER);
   fill("red");
-  text("other countdown:", width / 3, height / 2);
-  text(testo2, width / 3, height / 2 + 25);
+  text(testo, width / 3, height / 2 + 15);
   pop()
 }
 
 
+//emetti comandi bottone
 function startTimer() {
   socket.emit("startTimer");
 }
-
 function stopTimer() {
   socket.emit("stopTimer");
 }
-
 function resetTimer() {
   socket.emit("resetTimer");
 }
 
-//assegna a testo2 dati da server
+//assegna a testo dati da server
 function otherTesto(data) {
-  testo2 = data
+  testo = data
 }
