@@ -7,11 +7,12 @@ var gap; //gap tra countDown e Now
 var runningTime = 0; //secondi che scorrono
 var thisTime = 180; //secondi allo stopTimer
 var testo = 0; //variabile testo this countdown
-var testo2 = 0; //variabile testo other countdown
 
 // SERVER
 socket.on("connect", newConnection); //quando mi connetto, chiama funzione newConnection
-socket.on("testoIn", otherTesto) //ricezione other coundown
+socket.on("startTimer", startTimer); //ricezione other coundown
+socket.on("stopTimer", stopTimer);
+socket.on("resetTimer", resetTimer);
 
 function newConnection() {
   console.log("your ID: " + socket.id) //mostra mio codice connessione
@@ -51,15 +52,6 @@ function draw() {
   text("this countdown:", width / 2, height / 2);
   text(testo, width / 2, height / 2 + 25);
   pop()
-  //other page countdown
-  push()
-  textSize(20);
-  textFont('Roboto Mono');
-  textAlign(CENTER);
-  fill("red");
-  text("other countdown:", width / 3, height / 2);
-  text(testo2, width / 3, height / 2 + 25);
-  pop()
   // text fine partita
   if (gap < 0) {
     testo = "finish"
@@ -92,10 +84,4 @@ function resetTimer() {
   thisTime = 180; //resetta countdown
   testo = thisTime; //visualizza countdown
   countDown = new Date().getTime() + (thisTime * 1000); //+1000=+1s
-}
-
-
-//assegna a testo2 dati da server
-function otherTesto(data) {
-  testo2 = data
 }

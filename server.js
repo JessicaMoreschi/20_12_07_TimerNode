@@ -23,4 +23,13 @@ function newConnection(socket) {
   socket.on("testoOut", function(dataReceived) {  //alla ricezione testoOut
     socket.broadcast.emit("testoIn", dataReceived) //emetti il messaggio a tutti
   });
+  socket.on("startTimer", function() {  //alla ricezione startOtherTimer
+    socket.broadcast.emit("startTimer") //emetti il messaggio a tutti
+  });
+  socket.on("stopTimer", function() {  //alla ricezione stopOtherTimer
+    socket.broadcast.emit("stopTimer") //emetti il messaggio a tutti
+  });
+  socket.on("resetTimer", function() {  //alla ricezione resetOtherTimer
+    socket.broadcast.emit("resetTimer") //emetti il messaggio a tutti
+  });
 }
