@@ -9,15 +9,12 @@ var thisTime = 180; //secondi allo stopTimer
 var testo = 180; //variabile testo this countdown
 
 var playAllVideo = false; //bouleana play/stop countdown
-let videoAction;
 let videoActionStart = 180; //inizio video Action
 let videoActionStop = 0; //fine video Action
-let videoCorner;
-let videoCornerStart = 175; //inizio video
-let videoCornerStop = 170; //fine video Corner
-let videoGoal;
 let videoGoalStart = 165; //inizio video
 let videoGoalStop = 160; //fine video Goal
+let videoCornerStart = 175; //inizio video
+let videoCornerStop = 170; //fine video Corner
 
 
 // RICEZIONE SERVER
@@ -43,20 +40,12 @@ function setup() {
   btn3 = createButton("Reset Time");
   btn3.position(width / 2 + 100, height / 20);
   btn3.mouseClicked(resetTimer);
-
-// SETUP VIDEO
-  videoAction = createVideo('assets/action.mp4');
-  videoAction.hide();
-  videoGoal = createVideo('assets/goal.mp4');
-  videoGoal.hide();
-  videoCorner = createVideo('assets/corner.mp4');
-  videoCorner.hide();
 }
 
 
 function draw() {
 // DISPLAY COUNTDOWN
-  document.getElementById("countDown").innerHTML = testo;
+  document.getElementById("countDown").innerHTML = testo+"'";
 
   if (gap < 0) {
     testo = "finish" // text fine partita
@@ -66,18 +55,21 @@ function draw() {
   socket.emit("testoOut", testo);
 
 // DISPLAY VIDEO
-  // if (testo < videoActionStart && testo > videoActionStop) {
-  //   imageMode(CENTER);
-  //   image(videoAction, 180, height / 2, 160 * 2, 100 * 2);
-  // }
-  // if (testo < videoGoalStart && testo > videoGoalStop) {
-  //   imageMode(CENTER);
-  //   image(videoGoal, 180, height / 2, 160 * 2, 100 * 2);
-  // }
-  // if (testo < videoCornerStart && testo > videoCornerStop) {
-  //   imageMode(CENTER);
-  //   image(videoCorner, 180, height / 2, 160 * 2, 100 * 2);
-  // }
+  if (testo < videoActionStart && testo > videoActionStop) {
+    document.getElementById("videoAction").setAttribute("display","block");
+    document.getElementById("videoCorner").setAttribute("display","none");
+    document.getElementById("videoGoal").setAttribute("display","none");
+  }
+  if (testo < videoGoalStart && testo > videoGoalStop) {
+    document.getElementById("videoAction").setAttribute("display","none");
+    document.getElementById("videoCorner").setAttribute("display","block");
+    document.getElementById("videoGoal").setAttribute("display","none");
+  }
+  if (testo < videoCornerStart && testo > videoCornerStop) {
+    document.getElementById("videoAction").setAttribute("display","none");
+    document.getElementById("videoCorner").setAttribute("display","none");
+    document.getElementById("videoGoal").setAttribute("display","block");
+  }
 
 // PLAY/STOP VIDEO
   toggleVid(); //check funzione play/stop
@@ -111,25 +103,28 @@ function resetTimer() {
 
 // FUNCTION LINK VIDEO A TIMER
 function toggleVid() {
+  var videoAction=document.getElementById("videoAction");
+  var videoCorner=document.getElementById("videoCorner");
+  var videoGoal=document.getElementById("videoGoal");
   //stop
   if (playAllVideo == false) {
     videoAction.pause();
-    videoGoal.pause();
     videoCorner.pause();
+    videoGoal.pause();
   //play
   } else if (playAllVideo == true) {
     if (testo < videoActionStart && testo > videoActionStop) {
-      videoAction.loop() //videoAction
+      videoAction.play();
     };
     if ((testo < videoGoalStart && testo > videoGoalStop) ||
       (testo < videoCornerStart && testo > videoCornerStop)) {
       videoAction.pause() //videoAction
     };
     if (testo < videoGoalStart && testo > videoGoalStop) {
-      videoGoal.loop() //videoGoal
+      videoCorner.play() //videoGoal
     };
     if (testo < videoCornerStart && testo > videoCornerStop) {
-      videoCorner.loop() //videoCorner
+      videoGoal.play() //videoCorner
     };
   }
 }
