@@ -1,15 +1,41 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0>
-    <style> body {padding: 0; margin: 0;} </style>
 
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="p5.min.js"></script>
-    <!-- <script src="p5.sound.min.js"></script> -->
-    <script src="sketch_website.js"></script>
-  </head>
-  <body>
-  </body>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0>
+  <link href="website.css" rel="stylesheet" type="text/css">
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="p5.min.js"></script>
+  <!-- <script src="p5.sound.min.js"></script> -->
+  <script src="sketch_website.js"></script>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <div class="header">
+    <div class="header" id="logo"></div>
+    <div class="voci"><b>PARTITA</b></div>
+    <div class="voci">STRUMENTI KIT</div>
+    <div class="voci">ABOUT US</div>
+  </div>
+  <div class="punteggio">
+    <div class="maglia"></div>
+    <div class="team" id="team1">TEAM1</div>
+    <div class="team">
+      <div class="countDown" id="countDown">
+        43:44
+      </div>
+      1 : 1
+    </div>
+    <div class="team" id="team2">TEAM2</div>
+    <div class="maglia"></div>
+  </div>
+  <div class="performance">
+    <p id="tm1">PERFORMANCE <b>TM1</b></p>
+    <p id="tm2">PERFORMANCE <b>TM2</b></p>
+  </div>
+</body>
+
 </html>

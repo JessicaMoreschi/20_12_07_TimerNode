@@ -33,15 +33,15 @@ function setup() {
 // SETUP TIMER
   var btn; //button start
   btn = createButton("Start Time");
-  btn.position(width / 2 + 100, height / 2 - 25);
+  btn.position(width / 2 -100, height / 20);
   btn.mouseClicked(startTimer);
   var btn2; //button stop
   btn2 = createButton("Stop Time");
-  btn2.position(width / 2 + 100, height / 2);
+  btn2.position(width / 2 , height / 20);
   btn2.mouseClicked(stopTimer);
   var btn3; //button reset
   btn3 = createButton("Reset Time");
-  btn3.position(width / 2 + 100, height / 2 + 25);
+  btn3.position(width / 2 + 100, height / 20);
   btn3.mouseClicked(resetTimer);
 
 // SETUP VIDEO
@@ -55,14 +55,9 @@ function setup() {
 
 
 function draw() {
-  background("255");
-
 // DISPLAY COUNTDOWN
-  push()
-  textSize(20);
-  fill("black");
-  text(testo, width / 2 + 50, height / 2 + 15);
-  pop()
+  document.getElementById("countDown").innerHTML = testo;
+
   if (gap < 0) {
     testo = "finish" // text fine partita
   }
@@ -71,18 +66,18 @@ function draw() {
   socket.emit("testoOut", testo);
 
 // DISPLAY VIDEO
-  if (testo < videoActionStart && testo > videoActionStop) {
-    imageMode(CENTER);
-    image(videoAction, 180, height / 2, 160 * 2, 100 * 2);
-  }
-  if (testo < videoGoalStart && testo > videoGoalStop) {
-    imageMode(CENTER);
-    image(videoGoal, 180, height / 2, 160 * 2, 100 * 2);
-  }
-  if (testo < videoCornerStart && testo > videoCornerStop) {
-    imageMode(CENTER);
-    image(videoCorner, 180, height / 2, 160 * 2, 100 * 2);
-  }
+  // if (testo < videoActionStart && testo > videoActionStop) {
+  //   imageMode(CENTER);
+  //   image(videoAction, 180, height / 2, 160 * 2, 100 * 2);
+  // }
+  // if (testo < videoGoalStart && testo > videoGoalStop) {
+  //   imageMode(CENTER);
+  //   image(videoGoal, 180, height / 2, 160 * 2, 100 * 2);
+  // }
+  // if (testo < videoCornerStart && testo > videoCornerStop) {
+  //   imageMode(CENTER);
+  //   image(videoCorner, 180, height / 2, 160 * 2, 100 * 2);
+  // }
 
 // PLAY/STOP VIDEO
   toggleVid(); //check funzione play/stop
