@@ -72,8 +72,6 @@ function draw() {
   //this countdown
   push()
   textSize(20);
-  textFont('Roboto Mono');
-  textAlign(CENTER);
   fill("black");
   text(testo, width / 2 + 50, height / 2 + 15);
   pop()
@@ -158,5 +156,5 @@ function toggleVid() {
 }
 
 function openOtherPage(){
-  window.open('http://localhost:3000/index2.html')
+  window.open('http://localhost:3000/piattaforma.html')
 }
