@@ -1,35 +1,32 @@
 // SERVER
 console.log("node is running")
-
 // crea local server
-let express = require("express"); //Load the express code
-let socket = require("socket.io"); //Load the socket package
-let app = express(); //create local host
-let port = 3000; //dichiara server port (3000 standard)
-let server = app.listen(port); //aspetta che qualcuno si connetta (da browser "localhost:3000")
-
-//mostra ai clienti "public"
+let express = require("express");
+let socket = require("socket.io");
+let app = express();
+let port = 3000;
+let server = app.listen(port);
 app.use(express.static("public"));
-
 //crea connessione input/output
-let io = socket(server) //crea connessione input (da cliente to server)
-io.on("connection", newConnection) //all'evento "connection" esegui "newConnection()"
+let io = socket(server)
+io.on("connection", newConnection) //esegui quando un client si connette
 
-//esegui quando c'è un client
+
+// RICEZIONE/INVIO (from 1 client to all)
 function newConnection(socket) {
-  console.log("new connection: " + socket.client.id) //mostra codice connessione cliente
 
-// SKETCH
-  socket.on("testoOut", function(dataReceived) {  //alla ricezione testoOut
-    socket.broadcast.emit("testoIn", dataReceived) //emetti il messaggio a tutti
+  socket.on("testoOut", function(dataReceived) { // testo coundown
+    socket.broadcast.emit("testoIn", dataReceived)
   });
-  socket.on("startTimer", function() {  //alla ricezione startOtherTimer
-    socket.broadcast.emit("startTimer") //emetti il messaggio a tutti
+  socket.on("startTimer", function() { // start timer
+    socket.broadcast.emit("startTimer")
   });
-  socket.on("stopTimer", function() {  //alla ricezione stopOtherTimer
-    socket.broadcast.emit("stopTimer") //emetti il messaggio a tutti
+  socket.on("stopTimer", function() { // reset timer
+    socket.broadcast.emit("stopTimer")
   });
-  socket.on("resetTimer", function() {  //alla ricezione resetOtherTimer
-    socket.broadcast.emit("resetTimer") //emetti il messaggio a tutti
+  socket.on("resetTimer", function() { // stop timer
+    socket.broadcast.emit("resetTimer")
   });
+
+  //* aggiungi qui i messaggi per farli rimbalzare a tutti
 }
