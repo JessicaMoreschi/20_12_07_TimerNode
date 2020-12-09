@@ -27,7 +27,7 @@ socket.on("resetTimer", resetTimer); // ResetTimer
 
 
 function setup() {
-  var myCanvas = createCanvas(windowWidth/100*49, windowHeight/100*49);
+  var myCanvas = createCanvas(windowWidth/100*49.5, windowHeight/100*49.5);
   myCanvas.parent('videoView');
   background("#b1a4af");
 
@@ -122,6 +122,10 @@ function toggleVid() {
       videoGoal.play() //videoCorner
     };
   }
+}
+
+function funIframe(url){
+  document.getElementById("iframe").setAttribute("src",url)
 }
 
 function windowResized(){
