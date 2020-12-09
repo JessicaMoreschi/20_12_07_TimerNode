@@ -222,8 +222,7 @@ button:hover {
   color: #f9f9f8;
 }
 
-iframe {
-  display: flex;
+.canvasIframe {
   float: right;
   width: 49.5%;
   height: 49.5%;
@@ -236,4 +235,15 @@ iframe {
   border-bottom-color: #887b86;
   border-bottom-style: solid;
   border-bottom-width: 0.5px;
+  overflow: hidden;
+  padding: 0;
+}
+
+#iframe {
+  width: 200%;
+  height: 200%;
+  border: 0;
+
+transform: scale(0.5);
+transform-origin: 0 0;
 }
