@@ -134,13 +134,11 @@ function funIframe(url) {
     document.getElementById("tifo").style.fontWeight = 'bold';
     document.getElementById("stat").style.background = '#f9f9f8';
     document.getElementById("stat").style.fontWeight = 'regular';
-    document.getElementById("iframe").style.height= '200%';
   } else if (url == "statistiche.html") {
     document.getElementById("stat").style.background = 'rgba(214,209,211,0.25)';
     document.getElementById("stat").style.fontWeight = 'bold';
     document.getElementById("tifo").style.background = '#f9f9f8';
     document.getElementById("tifo").style.fontWeight = 'regular';
-    document.getElementById("iframe").style.height= '185%';
   }
 }
 
