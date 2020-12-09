@@ -125,7 +125,7 @@ function toggleVid() {
 }
 
 function funIframe(url){
-  document.getElementById("iframe").setAttribute("src",url)
+  document.getElementById("iframe").setAttribute("src",url);
 }
 
 function windowResized(){

@@ -45,6 +45,7 @@ body {
   border: none;
 }
 
+
 .punteggio {
   display: flex;
   justify-content: center;
@@ -174,18 +175,34 @@ body {
   height: 100%;
   line-height: 23px;
   margin: auto;
-  border: none;
   text-align: center;
+  border: none;
+  border-bottom-color: #887b86;
+  border-bottom-style: none;
+  border-bottom-width: 1.5px;
+  font-weight: normal;
+}
+
+#tifo:hover{
+  border-bottom-color: #887b86;
+  border-bottom-style: solid;
+  border-bottom-width: 1.5px;
+  font-weight: bold;
 }
 
 #stat {
-  background-color: rgba(214,209,211,0.25);
   width: 49.5%;
   height: 100%;
   line-height: 23px;
   margin: auto;
   border: none;
   text-align: center;
+}
+
+#stat:hover{
+  border-bottom-color: #887b86;
+  border-bottom-style: solid;
+  border-bottom-width: 1.5px;
   font-weight: bold;
 }
 
