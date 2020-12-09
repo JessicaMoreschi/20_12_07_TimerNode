@@ -239,6 +239,18 @@ button{
   border-radius: 5px;
 }
 
+#x{
+    background-color: #b1a4af;
+    color: #f9f9f8;
+    border: none;
+    font-size: 20pt;
+    height: auto;
+}
+
+#x:hover{
+    color: #887b86;
+}
+
 button:hover {
   background-color: #887b86;
   color: #f9f9f8;
@@ -334,7 +346,7 @@ transform-origin: 0 0;
 }
 
 .fullScreen{
-background-color: #887b86;
+background-color: #b1a4af;
 position:absolute;
 right:0px;
 top:17%;

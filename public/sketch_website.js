@@ -184,11 +184,63 @@ function funImgLoad(url) {
   }
 }
 
-function fullScreen(){
-  myCanvas = createCanvas(windowWidth/10*7.5, windowHeight/10*7.5);
-  myCanvas.position(windowWidth/7.95, 0);
+function fullScreen() {
+  myCanvas = createCanvas(windowWidth / 10 * 7.5, windowHeight / 10 * 7.5);
+  myCanvas.position(windowWidth / 7.95, 0);
   myCanvas.parent('fullScreen');
-  document.getElementById("fullScreen").style.display='block'
+  document.getElementById("fullScreen").style.display = 'block';
+  document.getElementById("startBtn").style.position = 'absolute';
+  document.getElementById("startBtn").style.zIndex = '1';
+  document.getElementById("startBtn").style.display = 'flex';
+  document.getElementById("startBtn").style.height = 'auto';
+  document.getElementById("startBtn").style.top = '20%';
+  document.getElementById("startBtn").style.left = '2%';
+  document.getElementById("stopBtn").style.position = 'absolute';
+  document.getElementById("stopBtn").style.zIndex = '1';
+  document.getElementById("stopBtn").style.display = 'flex';
+  document.getElementById("stopBtn").style.height = 'auto';
+  document.getElementById("stopBtn").style.top = '20%';
+  document.getElementById("stopBtn").style.left = '5%';
+  document.getElementById("resetBtn").style.position = 'absolute';
+  document.getElementById("resetBtn").style.zIndex = '1';
+  document.getElementById("resetBtn").style.display = 'flex';
+  document.getElementById("resetBtn").style.height = 'auto';
+  document.getElementById("resetBtn").style.top = '20%';
+  document.getElementById("resetBtn").style.left = '8%';
+  document.getElementById("x").style.display = 'flex';
+  document.getElementById("x").style.position = 'absolute';
+  document.getElementById("x").style.zIndex = '1';
+  document.getElementById("x").style.display = 'flex';
+  document.getElementById("x").style.height = 'auto';
+  document.getElementById("x").style.top = '20%';
+  document.getElementById("x").style.right = '2.5%';
+}
+
+function smallScreen() {
+  myCanvas = createCanvas(windowWidth/100*49.5, windowHeight/100*49.5);
+  myCanvas.parent('videoView');
+  myCanvas.position(0,windowHeight/100*43.25);
+  background("#b1a4af");
+  document.getElementById("x").style.display = 'none';
+  document.getElementById("fullScreen").style.display = 'none';
+  document.getElementById("startBtn").style.position = 'static';
+  document.getElementById("startBtn").style.zIndex = '1';
+  document.getElementById("startBtn").style.display = 'inline-block';
+  document.getElementById("startBtn").style.height = '50%';
+  document.getElementById("startBtn").removeAttribute("style.top");
+  document.getElementById("startBtn").removeAttribute("style.left");
+  document.getElementById("stopBtn").style.position = 'static';
+  document.getElementById("stopBtn").style.zIndex = '1';
+  document.getElementById("stopBtn").style.display = 'inline-block';
+  document.getElementById("stopBtn").style.height = '50%';
+  document.getElementById("stopBtn").removeAttribute("style.top");
+  document.getElementById("stopBtn").removeAttribute("style.left");
+  document.getElementById("resetBtn").style.position = 'static';
+  document.getElementById("resetBtn").style.zIndex = '1';
+  document.getElementById("resetBtn").style.display = 'inline-block';
+  document.getElementById("resetBtn").style.height = '50%';
+  document.getElementById("resetBtn").removeAttribute("style.top");
+  document.getElementById("resetBtn").removeAttribute("style.left");
 }
 
 function windowResized() {
