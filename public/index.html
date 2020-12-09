@@ -37,16 +37,18 @@
     <p id="tm2">PERFORMANCE <b>TM2</b></p>
   </div>
   <div class="videoBar">
+    <button id="startBtn" onclick="startTimer()"> start </button>
+    <button id="stopBtn" onclick="stopTimer()"> stop </button>
+    <button id="resetBtn" onclick="resetTimer()"> reset </button>
     <div id="real"></div>
     <div id="large"></div>
   </div>
   <div class="statBar">
     <p id="tifo">TIFO</p>
     <p id="stat">STAT</p>
-  </div>
-  <video class="videoView" id="videoAction" src="/assets/action.mp4" display="block"></video>
-  <video class="videoView" id="videoCorner" src="/assets/corner.mp4" display="none"></video>
-  <video class="videoView" id="videoGoal" src="/assets/goal.mp4" display="none"></video>
+  </div >
+  <div class="videoView" id="videoView"></div>
+
 </body>
 
 </html>

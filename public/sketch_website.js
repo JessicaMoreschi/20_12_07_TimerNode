@@ -9,10 +9,13 @@ var thisTime = 180; //secondi allo stopTimer
 var testo = 180; //variabile testo this countdown
 
 var playAllVideo = false; //bouleana play/stop countdown
+let videoAction;
 let videoActionStart = 180; //inizio video Action
 let videoActionStop = 0; //fine video Action
+let videoGoal;
 let videoGoalStart = 165; //inizio video
 let videoGoalStop = 160; //fine video Goal
+let videoCorner;
 let videoCornerStart = 175; //inizio video
 let videoCornerStop = 170; //fine video Corner
 
@@ -24,22 +27,17 @@ socket.on("resetTimer", resetTimer); // ResetTimer
 
 
 function setup() {
-  myCanvas = createCanvas(windowWidth, windowHeight);
-  myCanvas.position(0, 0);
+  var myCanvas = createCanvas(windowWidth/100*49, windowHeight/100*49);
+  myCanvas.parent('videoView');
+  background("#b1a4af");
 
-// SETUP TIMER
-  var btn; //button start
-  btn = createButton("Start Time");
-  btn.position(width / 2 -100, height / 20);
-  btn.mouseClicked(startTimer);
-  var btn2; //button stop
-  btn2 = createButton("Stop Time");
-  btn2.position(width / 2 , height / 20);
-  btn2.mouseClicked(stopTimer);
-  var btn3; //button reset
-  btn3 = createButton("Reset Time");
-  btn3.position(width / 2 + 100, height / 20);
-  btn3.mouseClicked(resetTimer);
+// SETUP VIDEO
+  videoAction = createVideo('assets/action.mp4');
+  videoAction.hide();
+  videoCorner = createVideo('assets/corner.mp4');
+  videoCorner.hide();
+  videoGoal = createVideo('assets/goal.mp4');
+  videoGoal.hide();
 }
 
 
@@ -56,19 +54,19 @@ function draw() {
 
 // DISPLAY VIDEO
   if (testo < videoActionStart && testo > videoActionStop) {
-    document.getElementById("videoAction").setAttribute("display","block");
-    document.getElementById("videoCorner").setAttribute("display","none");
-    document.getElementById("videoGoal").setAttribute("display","none");
+    imageMode(CENTER);
+    noStroke();
+    image(videoAction, width/2, height/2, width/10*9.3, height/10*11);
   }
   if (testo < videoGoalStart && testo > videoGoalStop) {
-    document.getElementById("videoAction").setAttribute("display","none");
-    document.getElementById("videoCorner").setAttribute("display","block");
-    document.getElementById("videoGoal").setAttribute("display","none");
+    imageMode(CENTER);
+    noStroke();
+    image(videoCorner, width/2, height/2, width/10*9.3, height/10*11);
   }
   if (testo < videoCornerStart && testo > videoCornerStop) {
-    document.getElementById("videoAction").setAttribute("display","none");
-    document.getElementById("videoCorner").setAttribute("display","none");
-    document.getElementById("videoGoal").setAttribute("display","block");
+    imageMode(CENTER);
+    noStroke();
+    image(videoGoal, width/2, height/2, width/10*9.3, height/10*11);
   }
 
 // PLAY/STOP VIDEO
@@ -103,9 +101,6 @@ function resetTimer() {
 
 // FUNCTION LINK VIDEO A TIMER
 function toggleVid() {
-  var videoAction=document.getElementById("videoAction");
-  var videoCorner=document.getElementById("videoCorner");
-  var videoGoal=document.getElementById("videoGoal");
   //stop
   if (playAllVideo == false) {
     videoAction.pause();
@@ -127,4 +122,8 @@ function toggleVid() {
       videoGoal.play() //videoCorner
     };
   }
+}
+
+function windowResized(){
+  resizeCanvas(windowWidth/100*49, windowHeight/100*49)
 }
