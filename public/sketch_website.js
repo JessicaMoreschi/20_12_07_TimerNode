@@ -18,6 +18,7 @@ let videoGoalStop = 166; //fine video Goal
 let videoCorner;
 let videoCornerStart = 165; //inizio video
 let videoCornerStop = 150; //fine video Corner
+var myCanvas
 
 
 // RICEZIONE SERVER
@@ -27,7 +28,7 @@ socket.on("resetTimer", resetTimer); // ResetTimer
 
 
 function setup() {
-  var myCanvas = createCanvas(windowWidth/100*49.5, windowHeight/100*49.5);
+  myCanvas = createCanvas(windowWidth/100*49.5, windowHeight/100*49.5);
   myCanvas.parent('videoView');
   background("#b1a4af");
 
@@ -106,7 +107,7 @@ function toggleVid() {
     videoAction.pause();
     videoCorner.pause();
     videoGoal.pause();
-  //play
+    //play
   } else if (playAllVideo == true) {
     if (testo < videoActionStart && testo > videoActionStop) {
       videoAction.play();
@@ -124,68 +125,72 @@ function toggleVid() {
   }
 }
 
+//FUNCTION IFRAME TIFO/STAT
+function funIframe(url) {
+  document.getElementById("iframe").setAttribute("src", url);
 
-
-function funIframe(url){
-  document.getElementById("iframe").setAttribute("src",url);
-
-  if (url=="/piattaforma/index.html"){
-    document.getElementById("tifo").style.background='rgba(214,209,211,0.25)';
-    document.getElementById("tifo").style.fontWeight='bold';
-    document.getElementById("stat").style.background='#f9f9f8';
-    document.getElementById("stat").style.fontWeight='regular';
-  } else if (url=="statistiche.html"){
-    document.getElementById("stat").style.background='rgba(214,209,211,0.25)';
-    document.getElementById("stat").style.fontWeight='bold';
-    document.getElementById("tifo").style.background='#f9f9f8';
-    document.getElementById("tifo").style.fontWeight='regular';
+  if (url == "/piattaforma/index.html") {
+    document.getElementById("tifo").style.background = 'rgba(214,209,211,0.25)';
+    document.getElementById("tifo").style.fontWeight = 'bold';
+    document.getElementById("stat").style.background = '#f9f9f8';
+    document.getElementById("stat").style.fontWeight = 'regular';
+  } else if (url == "statistiche.html") {
+    document.getElementById("stat").style.background = 'rgba(214,209,211,0.25)';
+    document.getElementById("stat").style.fontWeight = 'bold';
+    document.getElementById("tifo").style.background = '#f9f9f8';
+    document.getElementById("tifo").style.fontWeight = 'regular';
   }
-
 }
 
-function funImgLoad(url){
-  document.getElementById("canvasStat").setAttribute("src",url);
-  if (url=="/assets/cronaca.png"){
-    document.getElementById("cronaca").style.borderBottomWidth='1.5px';
-    document.getElementById("datipartita").style.borderBottomWidth='0.5px';
-    document.getElementById("statistiche").style.borderBottomWidth='0.5px';
-    document.getElementById("formazione").style.borderBottomWidth='0.5px';
-    document.getElementById("cronaca").style.fontWeight='bold';
-    document.getElementById("datipartita").style.fontWeight='normal';
-    document.getElementById("statistiche").style.fontWeight='normal';
-    document.getElementById("formazione").style.fontWeight='normal';
-  } else if (url=="/assets/datipartita.png"){
-    document.getElementById("cronaca").style.borderBottomWidth='0.5px';
-    document.getElementById("datipartita").style.borderBottomWidth='1.5px';
-    document.getElementById("statistiche").style.borderBottomWidth='0.5px';
-    document.getElementById("formazione").style.borderBottomWidth='0.5px';
-    document.getElementById("cronaca").style.fontWeight='normal';
-    document.getElementById("datipartita").style.fontWeight='bold';
-    document.getElementById("statistiche").style.fontWeight='normal';
-    document.getElementById("formazione").style.fontWeight='normal';
+//FUNCTION SUBMENU STAT
+function funImgLoad(url) {
+  document.getElementById("canvasStat").setAttribute("src", url);
+  if (url == "/assets/cronaca.png") {
+    document.getElementById("cronaca").style.borderBottomWidth = '1.5px';
+    document.getElementById("datipartita").style.borderBottomWidth = '0.5px';
+    document.getElementById("statistiche").style.borderBottomWidth = '0.5px';
+    document.getElementById("formazione").style.borderBottomWidth = '0.5px';
+    document.getElementById("cronaca").style.fontWeight = 'bold';
+    document.getElementById("datipartita").style.fontWeight = 'normal';
+    document.getElementById("statistiche").style.fontWeight = 'normal';
+    document.getElementById("formazione").style.fontWeight = 'normal';
+  } else if (url == "/assets/datipartita.png") {
+    document.getElementById("cronaca").style.borderBottomWidth = '0.5px';
+    document.getElementById("datipartita").style.borderBottomWidth = '1.5px';
+    document.getElementById("statistiche").style.borderBottomWidth = '0.5px';
+    document.getElementById("formazione").style.borderBottomWidth = '0.5px';
+    document.getElementById("cronaca").style.fontWeight = 'normal';
+    document.getElementById("datipartita").style.fontWeight = 'bold';
+    document.getElementById("statistiche").style.fontWeight = 'normal';
+    document.getElementById("formazione").style.fontWeight = 'normal';
+  } else if (url == "/assets/stat.png") {
+    document.getElementById("cronaca").style.borderBottomWidth = '0.5px';
+    document.getElementById("datipartita").style.borderBottomWidth = '0.5px';
+    document.getElementById("statistiche").style.borderBottomWidth = '1.5px';
+    document.getElementById("formazione").style.borderBottomWidth = '0.5px';
+    document.getElementById("cronaca").style.fontWeight = 'normal';
+    document.getElementById("datipartita").style.fontWeight = 'normal';
+    document.getElementById("statistiche").style.fontWeight = 'bold';
+    document.getElementById("formazione").style.fontWeight = 'normal';
+  } else if (url == "/assets/formazione.png") {
+    document.getElementById("cronaca").style.borderBottomWidth = '0.5px';
+    document.getElementById("datipartita").style.borderBottomWidth = '0.5px';
+    document.getElementById("statistiche").style.borderBottomWidth = '0.5px';
+    document.getElementById("formazione").style.borderBottomWidth = '1.5px';
+    document.getElementById("cronaca").style.fontWeight = 'normal';
+    document.getElementById("datipartita").style.fontWeight = 'normal';
+    document.getElementById("statistiche").style.fontWeight = 'normal';
+    document.getElementById("formazione").style.fontWeight = 'bold';
   }
- else if (url=="/assets/stat.png"){
-  document.getElementById("cronaca").style.borderBottomWidth='0.5px';
-  document.getElementById("datipartita").style.borderBottomWidth='0.5px';
-  document.getElementById("statistiche").style.borderBottomWidth='1.5px';
-  document.getElementById("formazione").style.borderBottomWidth='0.5px';
-  document.getElementById("cronaca").style.fontWeight='normal';
-  document.getElementById("datipartita").style.fontWeight='normal';
-  document.getElementById("statistiche").style.fontWeight='bold';
-  document.getElementById("formazione").style.fontWeight='normal';
-}
- else if (url=="/assets/formazione.png"){
-  document.getElementById("cronaca").style.borderBottomWidth='0.5px';
-  document.getElementById("datipartita").style.borderBottomWidth='0.5px';
-  document.getElementById("statistiche").style.borderBottomWidth='0.5px';
-  document.getElementById("formazione").style.borderBottomWidth='1.5px';
-  document.getElementById("cronaca").style.fontWeight='normal';
-  document.getElementById("datipartita").style.fontWeight='normal';
-  document.getElementById("statistiche").style.fontWeight='normal';
-  document.getElementById("formazione").style.fontWeight='bold';
-}
 }
 
-function windowResized(){
-  resizeCanvas(windowWidth/100*49, windowHeight/100*49)
+function fullScreen(){
+  myCanvas = createCanvas(windowWidth/10*7.5, windowHeight/10*7.5);
+  myCanvas.position(windowWidth/7.95, 0);
+  myCanvas.parent('fullScreen');
+  document.getElementById("fullScreen").style.display='block'
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth / 100 * 49, windowHeight / 100 * 49)
 }
