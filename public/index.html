@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0>
+  <title>12Uomo</title>
   <link href="website.css" rel="stylesheet" type="text/css">
   <script src="/socket.io/socket.io.js"></script>
   <script src="p5.min.js"></script>
@@ -16,9 +17,9 @@
 <body>
   <div class="header">
     <div class="header" id="logo"></div>
-    <div class="voci"><b>PARTITA</b></div>
-    <div class="voci">STRUMENTI KIT</div>
-    <div class="voci">ABOUT US</div>
+    <div class="voci" id="partita"><b>PARTITA</b></div>
+    <div class="voci" id="strumentikit">STRUMENTI KIT</div>
+    <div class="voci" id="aboutus">ABOUT US</div>
   </div>
   <div class="punteggio">
     <div class="maglia"></div>
@@ -44,12 +45,12 @@
     <div id="large"></div>
   </div>
   <div class="statBar">
-    <p id="tifo" onclick="funIframe('/piattaforma/index.html')">TIFO</p>
-    <p id="stat" onclick="funIframe('/piattaforma/assets/immagini/benvenuto.png')">STAT</p>
+    <p class="voceStat" onclick="funIframe('/piattaforma/index.html')" id="tifo" style="background: #f9f9f8">TIFO</p>
+    <p class="voceStat" onclick="funIframe('statistiche.html')" id="stat" style="background: rgba(214,209,211,0.25); font-weight:bold">STAT</p>
   </div >
   <div class="videoView" id="videoView"></div>
   <div class="canvasIframe">
-  <iframe id="iframe"></iframe>
+  <iframe id="iframe" src="statistiche.html"></iframe>
   </div>
 </body>
 
