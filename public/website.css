@@ -275,7 +275,7 @@ button:hover {
 
 #iframe {
   width: 200%;
-  height: 200%;
+  height: 185%;
   border: 0;
 
 transform: scale(0.5);
