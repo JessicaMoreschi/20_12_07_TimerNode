@@ -9,10 +9,10 @@ let textColorC = '#877B85';
 let bButtonColorS = '#F9F9F9';
 let bButtonColorD = '#F9F9F9';
 let bButtonColorC = '#F9F9F9';
-let bonus5 = 0;//se i bonus sono tutti attivi apri un altra parte di sketch
+let bonus5 = 0; //se i bonus sono tutti attivi apri un altra parte di sketch
 
 //icone
-let baloonIcon, baloon_Puntini,noParola , logor, freccia;
+let baloonIcon, baloon_Puntini, noParola, logor, freccia;
 let xBarra = 20; //lunghezza barra %
 let w, h; //posizione
 let s = 0; //ellisse BONUS
@@ -29,6 +29,17 @@ let p = 0; //contatore parole
 // var myRec = new p5.SpeechRec('en-US', parseResult); // new P5.SpeechRec object
 // 	myRec.continuous = true; // do continuous recognition
 // 	myRec.interimResults = true; // allow partial recognition (faster, less accurate)
+
+//Volume daspo
+let mic;
+//variabili per DASPO
+let daspo = false; //variabile che dice se daspo è attiva in questo momento
+let daspo_counter = 0; //variabile che conta il numero di daspo
+let op = 0; //opacità rettangolo daspo
+let incremento_daspo = 0;
+let timeout_daspo; //variabile per riavviare la funzione Timeout del daspo
+let daspo_3, daspo_4, daspo_5;
+let gif_daspo;
 /////////////////////////////////////////////////////////////////////////
 
 function preload() {
@@ -37,6 +48,9 @@ function preload() {
   noParola = loadImage("./assets/noParola.png"); //nuvoletta attiva
   logor = loadImage("./assets/logopiccolo.png") //logo ridotto
   freccia = loadImage("./assets/freccia.png");
+  daspo_3 = loadImage("./assets/daspo3.gif");
+  daspo_4 = loadImage("./assets/daspo4.gif");
+  daspo_5 = loadImage("./assets/daspo5.gif");
 }
 
 ////////////setup/////////////////////////////////////////////////////////////
@@ -51,8 +65,8 @@ function setup() {
   speechRec.start(continuous, interim);
 
   // //microfono get: Create an Audio input
-  // mic = new p5.AudioIn();
-  // mic.start();
+  mic = new p5.AudioIn();
+  mic.start();
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -103,10 +117,10 @@ function draw() {
 
   //pallini BONUS
   for (let i = 0; i < 6; i++) {
-    if(p_coord > 60){
+    if (p_coord > 60) {
       push();
       fill('#877B85');
-      ellipse(w, h*45.5, 15);
+      ellipse(w, h * 45.5, 15);
       pop();
     }
     ellipse(w + s, h * 45.5, 15);
@@ -117,92 +131,92 @@ function draw() {
   //microfono input
   //let vol = round(mic.getLevel(), 2) * 1000;
   //console.log('volume: ' + vol);
-if (bonus5 == 1){
-  document.getElementById("tutorial").style.display = "none";
-  push();
-      //CONTENITORI PAROLE VECCHE
-      rectMode(CENTER);
-      strokeWeight(5);
-      stroke(textColorS) //viola
-      fill(bButtonColorS) //bianco
-      rect(w * 6, h*31, w * 3, 60, 40);
-      stroke(textColorD) //viola
-      fill(bButtonColorD) //bianco
-      rect(w * 14, h*31, w * 3, 60, 40);
-      //nuova parola
-      stroke(textColorC) //viola
-      fill(bButtonColorC) //bianco
-      rect(w * 10 , h*31, w * 3, 60, 40);
+  if (bonus5 == 1) {
+    document.getElementById("tutorial").style.display = "none";
+    push();
+    //CONTENITORI PAROLE VECCHE
+    rectMode(CENTER);
+    strokeWeight(5);
+    stroke(textColorS) //viola
+    fill(bButtonColorS) //bianco
+    rect(w * 6, h * 31, w * 3, 60, 40);
+    stroke(textColorD) //viola
+    fill(bButtonColorD) //bianco
+    rect(w * 14, h * 31, w * 3, 60, 40);
+    //nuova parola
+    stroke(textColorC) //viola
+    fill(bButtonColorC) //bianco
+    rect(w * 10, h * 31, w * 3, 60, 40);
 
-      noStroke();
-      textSize(30);
-      textAlign(CENTER, TOP);
-      fill(textColorS);
-      text('forza.', w * 6, h*31 - 15);
-      fill(textColorD);
-      text('bravi.', w * 14, h*31 - 15);
-      fill(textColorC);
-      text('oplà.', w * 10, h*31 - 15);
-  pop();
+    noStroke();
+    textSize(30);
+    textAlign(CENTER, TOP);
+    fill(textColorS);
+    text('forza.', w * 6, h * 31 - 15);
+    fill(textColorD);
+    text('bravi.', w * 14, h * 31 - 15);
+    fill(textColorC);
+    text('oplà.', w * 10, h * 31 - 15);
+    pop();
 
-  //ICONA CENTRALE CHE REAGISCE AL MIC
-   if (p == 0) { // cambio colore del bottone centrale: feedback utente
-     image(baloonIcon, width / 2, h*20, baloonIcon.width / 4, baloonIcon.height / 4);
-   } else if (p == 1) {
-     image(noParola,  width / 2, h*20, noParola.width / 4, noParola.height / 4);
-   }
+    //ICONA CENTRALE CHE REAGISCE AL MIC
+    if (p == 0) { // cambio colore del bottone centrale: feedback utente
+      image(baloonIcon, width / 2, h * 20, baloonIcon.width / 4, baloonIcon.height / 4);
+    } else if (p == 1) {
+      image(noParola, width / 2, h * 20, noParola.width / 4, noParola.height / 4);
+    }
 
-}else{
-  push();
-  //CONTENITORI SCRITTE DA PRONUNCIARE
-  rectMode(CENTER);
-  stroke(textColorS) //viola
-  strokeWeight(5);
-  fill(bButtonColorS) //bianco
-  rect(w * 6, height / 2, w * 4, 60, 40);
-  stroke(textColorD) //viola
-  fill(bButtonColorD) //bianco
-  rect(w * 14, height / 2, w * 4, 60, 40);
+  } else {
+    push();
+    //CONTENITORI SCRITTE DA PRONUNCIARE
+    rectMode(CENTER);
+    stroke(textColorS) //viola
+    strokeWeight(5);
+    fill(bButtonColorS) //bianco
+    rect(w * 6, height / 2, w * 4, 60, 40);
+    stroke(textColorD) //viola
+    fill(bButtonColorD) //bianco
+    rect(w * 14, height / 2, w * 4, 60, 40);
 
-  noStroke();
-  textSize(30);
-  textAlign(CENTER, TOP);
-  fill(textColorS) //viola
-  text('forza.', w * 6, height / 2 - 15);
-  fill(textColorD) //viola
-  text('bravi.', w * 14, height / 2 - 15);
-  pop();
+    noStroke();
+    textSize(30);
+    textAlign(CENTER, TOP);
+    fill(textColorS) //viola
+    text('forza.', w * 6, height / 2 - 15);
+    fill(textColorD) //viola
+    text('bravi.', w * 14, height / 2 - 15);
+    pop();
 
-  //ICONA CENTRALE CHE REAGISCE AL MIC
-   if (i >1 && p == 0) { // cambio colore del bottone centrale: feedback utente
-     image(baloonIcon, width / 2, height / 2, baloonIcon.width / 4, baloonIcon.height / 4);
-   } else if (i > 1 && p == 1) {
-     image(noParola, width / 2, height / 2, noParola.width / 4, noParola.height / 4);
-   }
+    //ICONA CENTRALE CHE REAGISCE AL MIC
+    if (i > 1 && p == 0) { // cambio colore del bottone centrale: feedback utente
+      image(baloonIcon, width / 2, height / 2, baloonIcon.width / 4, baloonIcon.height / 4);
+    } else if (i > 1 && p == 1) {
+      image(noParola, width / 2, height / 2, noParola.width / 4, noParola.height / 4);
+    }
 
-   //rettangolo in opacità
-   push();
-   rectMode(CORNER)
-   fill(255, 255, 255, opacità);
-   rect(0, 0, width, height);
-   //rettangolo diventta trasparente alla fine del tutorial
-   if (i > 1) {
-     opacità = 0
-   }
-   pop();
+    //rettangolo in opacità
+    push();
+    rectMode(CORNER)
+    fill(255, 255, 255, opacità);
+    rect(0, 0, width, height);
+    //rettangolo diventta trasparente alla fine del tutorial
+    if (i > 1) {
+      opacità = 0
+    }
+    pop();
 
-   //TUTORIAL
-   push();
-   textSize(16);
-   fill('#B7AEB5'); //3 PALETTE
-   if (i < 1 || i == 1) {
-     document.getElementById("tutorial").style.display = "block";
-       text('Scegli una parola', w * 10, h * 31);
-         text('ESULTA QUANDO RICHIESTO', w * 10, h * 33);
-       } else {
-     document.getElementById("tutorial").style.display = "none";
-   }
-}
+    //TUTORIAL
+    push();
+    textSize(16);
+    fill('#B7AEB5'); //3 PALETTE
+    if (i < 1 || i == 1) {
+      document.getElementById("tutorial").style.display = "block";
+      text('Scegli una parola', w * 10, h * 31);
+      text('ESULTA QUANDO RICHIESTO', w * 10, h * 33);
+    } else {
+      document.getElementById("tutorial").style.display = "none";
+    }
+  }
 
   //ritmo
   if (frameCount % 50 == 0) { //multiplo di 50 incrementa i
@@ -210,7 +224,7 @@ if (bonus5 == 1){
   }
 
   //PERCENTUALE
-  if (input_utente == 1 && i>i_ritardo+1) {
+  if (input_utente == 1 && i > i_ritardo + 1) {
     p_coord = round(random(10, 80));
     input_utente = 0;
   }
@@ -221,16 +235,78 @@ if (bonus5 == 1){
   text('SCELTA DA  ' + p_coord + ' % DEGLI UTENTI', w * 10, h * 43);
   pop();
 
+  //volume per daspo
+  let vol = mic.getLevel();
+  let vol_1 = round(map(vol, 0, 1, 0, 100));
+  console.log("volume " + vol)
+
+
+  //DASPO
+  //daspo condizione
+  if (vol_1 > 30 && i > 1) {
+    daspo = true;
+    daspo_counter++;
+  } else if (vol_1 < 30 && i < 1) {
+    daspo = false;
+    op = 0;
+  }
+
+  //attivare funzioni daspo
+  if (daspo == true) {
+    daspoAttiva();
+  }
+
+  incremento_daspo = 3000 + (daspo_counter) * 1000;
+  if (incremento_daspo > 5000) {
+    incremento_daspo = 5000;
+  }
+
+  console.log("tempo daspo " + incremento_daspo)
 
 }
 ////////fine draw///////////////////////////////////////////////////////////////////////////////////
 
+//funzioni per attivare la daspo
+function daspoAttiva() {
+  op = 210;
+  alt = 1;
+
+  push();
+  rectMode(CORNER);
+  fill(255, 255, 255, op);
+  rect(0, 0, width, height);
+  pop();
+
+  if (incremento_daspo == 3000) {
+    gif_daspo = daspo_3
+  } else if (incremento_daspo == 4000) {
+    gif_daspo = daspo_4
+  } else if (incremento_daspo == 5000) {
+    gif_daspo = daspo_5
+  }
+
+
+  image(gif_daspo, width / 10, 3 * height / 4, gif_daspo.width / 2, gif_daspo.height / 2);
+
+  timeout_daspo = setTimeout(daspoNonAttiva, incremento_daspo);
+}
+
+//funzione per disattivare la daspo cambiando la variabile
+function daspoNonAttiva() {
+  daspo = false;
+}
+
+//riavvia il timer per daspo
+function nonAttivafine() {
+  clearTimeout(timeout_daspo);
+}
+
 ////////// Riconoscimento vocale parole //////////////////////////////////////////////////////////////
 
 function gotSpeech() {
-//  if(prima_p == 0){
-  if (i >1 && p == 0) {
-      console.log('p '+ p);
+  //  if(prima_p == 0){
+  if (i > 1 && p == 0) {
+    console.log('p ' + p);
     if (speechRec.resultValue) {
       if (speechRec.resultString == 'forza') {
         //sx
@@ -263,7 +339,7 @@ function gotSpeech() {
 
 /////////////////////////////////////////////////////////////////////////
 
-function mouseClicked(){
+function mouseClicked() {
   bonus5 = 1;
 }
 

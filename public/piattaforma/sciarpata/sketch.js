@@ -16,6 +16,14 @@ let input_utente = 200 //var utente usa la trobetta, preme bottone
 let opacità = 210 //opacità rettangolo tutorial
 let pronto //coordinzaione tutorial
 let bonus_server;
+
+//variabili per DASPO
+let daspo = false; //variabile che dice se daspo è attiva in questo momento
+let daspo_counter = 0; //variabile che conta il numero di daspo
+let incremento_daspo = 0;
+let op = 0; //opacità rettangolo daspo
+let timeout_daspo;
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // teachable machine
 // https://www.npmjs.com/package/@teachablemachine/pose/v/0.8.4
@@ -63,6 +71,9 @@ function preload() {
   freccia = loadImage("./assets/immagini/freccia.png");
   sAlta = loadImage("./assets/immagini/Sciarpa_su.png");
   sBassa = loadImage("./assets/immagini/Sciarpa_giù.png");
+  daspo_3 = loadImage("./assets/immagini/daspo3.gif");
+  daspo_4 = loadImage("./assets/immagini/daspo4.gif");
+  daspo_5 = loadImage("./assets/immagini/daspo5.gif");
 }
 
 /////////////////////////////////////////////////////////////////////////
@@ -158,7 +169,7 @@ function draw() {
       ellipse(w + 50, h * 45.5, 15);
       ellipse(w + 75, h * 45.5, 15);
       pop();
-    }else if (contBonus === 19 || contBonus === 20 || contBonus === 21) {
+    } else if (contBonus === 19 || contBonus === 20 || contBonus === 21) {
       push();
       fill('#877B85');
       ellipse(w, h * 45.5, 15);
@@ -167,8 +178,8 @@ function draw() {
       ellipse(w + 75, h * 45.5, 15);
       ellipse(w + 100, h * 45.5, 15);
       pop();
-    }else if (contBonus === 22) {
-      window.open('../bonus/index.html','_self');//doppio puntino per andare nella cartella sopra
+    } else if (contBonus === 22) {
+      window.open('../bonus/index.html', '_self'); //doppio puntino per andare nella cartella sopra
     }
     ellipse(w + s, h * 45.5, 15);
     s = 25 * i;
@@ -205,8 +216,9 @@ function draw() {
   } else if (i % 2 == 0 && i > 3) { //cambio colore delle bottone centrale: feedback utente
     document.getElementById("tutorial2").style.display = "none";
     image(sciarpaIcon, w * 10, h * 25, sciarpaIcon.width / 6, sciarpaIcon.height / 6); // scura
-    if (topPrediction == 'up'){
-      feed_piattaforma++;}
+    if (topPrediction == 'up') {
+      feed_piattaforma++;
+    }
   }
 
   //rettangolo in opacità
@@ -252,7 +264,7 @@ function draw() {
 
     input_utente = 200;
     push();
-    var z= 25 + p_coord;
+    var z = 25 + p_coord;
     tint(255, z * 3.5); // Display at half opacity
     image(sAlta, width / 2, height / 2, sAlta.width / 3, sAlta.height / 3);
     pop();
@@ -269,17 +281,77 @@ function draw() {
 
     predict()
   }
+
+
+
+  //DASPO
+  //daspo condizione
+  if (topPrediction == 'up' && i % 2 != 0 && i > 3) {
+    daspo = true;
+    daspo_counter++;
+  } else if (topPrediction == 'up' && i % 2 == 0 && i > 3 && daspo == false) {
+    daspo = false;
+    op = 0;
+  }
+
+  if (daspo == true) {
+    daspoAttiva();
+    timeout_daspo = setTimeout(daspoNonAttiva, 3000);
+  }
+
+  incremento_daspo = 3000 + daspo_counter * 1000;
+  if (incremento_daspo > 5000) {
+    incremento_daspo = 5000;
+  }
+
+  console.log("tempo daspo " + incremento_daspo)
+
+
 //console.log (topPrediction);
 
 ///////cambio cartella //////////////////////////////////////////////////
-              if(i == 20){
-                window.open('../indexPausa.html','_self');//doppio puntino per andare nella cartella sopra
-              }
-  //////////////////////////////////////////////////////////////////
+if (i == 20) {
+  window.open('../indexPausa.html', '_self'); //doppio puntino per andare nella cartella sopra
+}
+//////////////////////////////////////////////////////////////////
 }
 
 
 ///////FINE DRAW/////////////////////////////////////////////////////
+
+//funzioni per attivare la daspo
+function daspoAttiva() {
+  op = 210;
+  daspo = true;
+  push();
+  rectMode(CORNER);
+  fill(255, 255, 255, op);
+  rect(0, 0, width, height);
+  pop();
+
+  if (incremento_daspo == 3000) {
+    gif_daspo = daspo_3
+  } else if (incremento_daspo == 4000) {
+    gif_daspo = daspo_4
+  } else if (incremento_daspo == 5000) {
+    gif_daspo = daspo_5
+  }
+
+
+  // image(gif_daspo, width / 10, 3*height / 4, gif_daspo.width/2 , gif_daspo.height/2 );
+  image(daspo_3, width / 10, 3 * height / 4, daspo_3.width / 2, daspo_3.height / 2);
+
+}
+
+//funzione per disattivare la daspo cambiando la variabile
+function daspoNonAttiva() {
+  daspo = false;
+}
+
+//riavvia il timer per daspo
+function nonAttivafine() {
+  clearTimeout(timeout_daspo);
+}
 
 //funzione trombetta
 function windowResized() {
