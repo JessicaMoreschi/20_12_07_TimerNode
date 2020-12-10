@@ -2,7 +2,7 @@
 let socket = io(); //setting server
 
 //VARIABILI SCKETCH
-var testo = 0; //valore countdown
+var testo = 180; //valore countdown
 
 
 // RICEZIONE

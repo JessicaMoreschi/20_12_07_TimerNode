@@ -1,3 +1,9 @@
+// Server
+let socket = io(); //setting server
+
+//Coundown
+var testo = 180; //valore countdown
+
 //impostazioni riconoscimento vocale
 let lang = 'it-IT';
 let speechRec = new p5.SpeechRec(lang, gotSpeech);
@@ -35,12 +41,27 @@ let mic;
 //variabili per DASPO
 let daspo = false; //variabile che dice se daspo è attiva in questo momento
 let daspo_counter = 0; //variabile che conta il numero di daspo
-let op = 0; //opacità rettangolo daspo
+let op = 1; //opacità rettangolo daspo
 let incremento_daspo = 0;
 let timeout_daspo; //variabile per riavviare la funzione Timeout del daspo
 let daspo_3, daspo_4, daspo_5;
 let gif_daspo;
 /////////////////////////////////////////////////////////////////////////
+
+
+
+////////////////COMUNICAZIONE SERVER/////////////////////////////////////
+// RICEZIONE
+socket.on("testoIn", updateTesto) //ricezione countdown
+
+// UPDATE DA SERVER
+function updateTesto(dataReceived) {
+  console.log(dataReceived);
+  testo = dataReceived //assegna a testo dati da server
+}
+
+////////////////FINE COMUNICAZIONE SERVER/////////////////////////////////////
+
 
 function preload() {
   baloonIcon = loadImage("./assets/barretteParola.gif"); //nuvoletta attiva
@@ -67,6 +88,15 @@ function setup() {
   // //microfono get: Create an Audio input
   mic = new p5.AudioIn();
   mic.start();
+
+  w = width / 20;
+  h = height / 50;
+
+  //freccia
+  b2 = createButton("");
+  b2.position(w, h * 4.5);
+  b2.mousePressed(dispPausa);
+  b2.id('pauseBtn');
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -75,9 +105,6 @@ function draw() {
   background('#F9F9F9'); //chiaro
   imageMode(CENTER); //per pittogrammi
   noStroke();
-
-  w = width / 20;
-  h = height / 50;
 
   //testo caratteristiche
   textFont('quicksand');
@@ -99,9 +126,6 @@ function draw() {
 
   //logo a destra
   image(logor, w * 18.5, h * 6, logor.width / 4.5, logor.height / 4.5);
-  //freccia
-  image(freccia, w, h * 6, freccia.width / 6, freccia.height / 6);
-
 
   //BARRA COORDINAZIONE
   fill('#D5D0D3'); //griga
@@ -130,7 +154,7 @@ function draw() {
   /////////////////// LA PARTE SOPRA è STANDARD ///////////////////////////////////////////////
   //microfono input
   //let vol = round(mic.getLevel(), 2) * 1000;
-  //console.log('volume: ' + vol);
+  ////console.log('volume: ' + vol);
   if (bonus5 == 1) {
     document.getElementById("tutorial").style.display = "none";
     push();
@@ -238,7 +262,7 @@ function draw() {
   //volume per daspo
   let vol = mic.getLevel();
   let vol_1 = round(map(vol, 0, 1, 0, 100));
-  console.log("volume " + vol)
+  //console.log("volume " + vol)
 
 
   //DASPO
@@ -261,7 +285,7 @@ function draw() {
     incremento_daspo = 5000;
   }
 
-  console.log("tempo daspo " + incremento_daspo)
+  //console.log("tempo daspo " + incremento_daspo)
 
 }
 ////////fine draw///////////////////////////////////////////////////////////////////////////////////
@@ -306,7 +330,7 @@ function nonAttivafine() {
 function gotSpeech() {
   //  if(prima_p == 0){
   if (i > 1 && p == 0) {
-    console.log('p ' + p);
+    //console.log('p ' + p);
     if (speechRec.resultValue) {
       if (speechRec.resultString == 'forza') {
         //sx
@@ -331,7 +355,7 @@ function gotSpeech() {
         i_ritardo = i;
       }
 
-      console.log(speechRec.resultString);
+      //console.log(speechRec.resultString);
 
     }
   }
@@ -346,4 +370,37 @@ function mouseClicked() {
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
+}
+
+///////COMANDI PAUSA-STOP-RESET/////////////////////////////////////////////////////
+//funzioni per attivare la pausa
+function dispPausa() {
+  socket.emit("stopTimer");
+  document.getElementById("tutorial").style.display = "none"
+  document.getElementById("schermo").style.backgroundColor = "#877B85";
+  document.getElementById("startTifo").style.display = "block";
+  document.getElementById("resetTifo").style.display = "block";
+  document.getElementById("contTifo").style.display = "block";
+  document.getElementById("abbTifo").style.display = "block";
+  document.getElementsByClassName("iconPausa").style.display = "block";
+}
+
+function startTifo() {
+  socket.emit("startTimer");
+  document.getElementById("schermo").style.backgroundColor = "transparent";
+  document.getElementById("startTifo").style.display = "none";
+  document.getElementById("resetTifo").style.display = "none";
+  document.getElementById("contTifo").style.display = "none";
+  document.getElementById("abbTifo").style.display = "none";
+  document.getElementsByClassName("iconPausa").style.display = "none";
+}
+
+function resetTifo() {
+  socket.emit("resetTimer");
+  document.getElementById("schermo").style.backgroundColor = "transparent";
+  document.getElementById("startTifo").style.display = "none";
+  document.getElementById("resetTifo").style.display = "none";
+  document.getElementById("contTifo").style.display = "none";
+  document.getElementById("abbTifo").style.display = "none";
+  document.getElementsByClassName("iconPausa").style.display = "none";
 }

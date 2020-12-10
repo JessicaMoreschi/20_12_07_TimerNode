@@ -1,3 +1,9 @@
+// Server
+let socket = io(); //setting server
+
+//Coundown
+var testo = 180; //valore countdown
+
 // let SERIAL
 let serial; // variable to hold an instance of the serialport library
 let portName = '/dev/tty.usbmodem14101'; // fill in your serial port name here
@@ -31,6 +37,20 @@ let timeout_daspo; //variabile per riavviare la funzione Timeout del daspo
 let daspo_3, daspo_4, daspo_5;
 let gif_daspo;
 
+
+////////////////COMUNICAZIONE SERVER/////////////////////////////////////
+// RICEZIONE
+socket.on("testoIn", updateTesto) //ricezione countdown
+
+// UPDATE DA SERVER
+function updateTesto(dataReceived) {
+  console.log(dataReceived);
+  testo = dataReceived //assegna a testo dati da server
+}
+
+////////////////FINE COMUNICAZIONE SERVER/////////////////////////////////////
+
+
 /////////////////////////////////////////////////////////////////////////
 
 function preload() {
@@ -61,6 +81,15 @@ function setup() {
 
   serial.list(); // list the serial ports
   serial.open(portName); // open a serial port
+
+  w = width / 20;
+  h = height / 50;
+
+  //freccia
+  b2 = createButton("");
+  b2.position(w, h * 4.5);
+  b2.mousePressed(dispPausa);
+  b2.id('pauseBtn');
 }
 
 /////////////////////////////////////////////////////////////////////////
@@ -92,8 +121,6 @@ function draw() {
 
   //logo a destra
   image(logor, w * 18.5, h * 6, logor.width / 4.5, logor.height / 4.5);
-  //freccia
-  image(freccia, w, h * 6, freccia.width / 6, freccia.height / 6);
 
   //BARRA COORDINAZIONE
   fill('#D5D0D3'); //barra grigia
@@ -351,4 +378,37 @@ function printList(portList) {
 //funzione trombetta
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
+}
+
+
+///////COMANDI PAUSA-STOP-RESET/////////////////////////////////////////////////////
+//funzioni per attivare la pausa
+function dispPausa() {
+  socket.emit("stopTimer");
+  document.getElementById("schermo").style.backgroundColor = "#877B85";
+  document.getElementById("startTifo").style.display = "block";
+  document.getElementById("resetTifo").style.display = "block";
+  document.getElementById("contTifo").style.display = "block";
+  document.getElementById("abbTifo").style.display = "block";
+  document.getElementsByClassName("iconPausa").style.display = "block";
+}
+
+function startTifo() {
+  socket.emit("startTimer");
+  document.getElementById("schermo").style.backgroundColor = "transparent";
+  document.getElementById("startTifo").style.display = "none";
+  document.getElementById("resetTifo").style.display = "none";
+  document.getElementById("contTifo").style.display = "none";
+  document.getElementById("abbTifo").style.display = "none";
+  document.getElementsByClassName("iconPausa").style.display = "none";
+}
+
+function resetTifo() {
+  socket.emit("resetTimer");
+  document.getElementById("schermo").style.backgroundColor = "transparent";
+  document.getElementById("startTifo").style.display = "none";
+  document.getElementById("resetTifo").style.display = "none";
+  document.getElementById("contTifo").style.display = "none";
+  document.getElementById("abbTifo").style.display = "none";
+  document.getElementsByClassName("iconPausa").style.display = "none";
 }

@@ -35,7 +35,7 @@ function mouseClicked() {
   textSize(13);
   text('IL VERO TIFO',width / 2,  height / 50 *39);
   button= createButton('inizia');
-  button.position(width/20*9,  height / 50*44);
+  button.position(width/2-button.width/2,  height / 50*44);
   button.mousePressed();
   } else if (pag == 1) {
       window.open('indexPausa.html','_self');

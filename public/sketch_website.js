@@ -4,7 +4,7 @@ let socket = io(); //setting server
 var x; //setInterval
 var countDown;
 var gap; //gap tra countDown e Now
-var runningTime = 0; //secondi che scorrono
+var runningTime = 180; //secondi che scorrono
 var thisTime = 180; //secondi allo stopTimer
 var testo = 180; //variabile testo this countdown
 
