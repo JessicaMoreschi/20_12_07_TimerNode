@@ -5,7 +5,7 @@ let socket = io(); //setting server
 var testo = 180; //valore countdown
 
 //trombetta ICONE
-let sciarpaIcon, sciarpaBIcon, tut1Icon, tutIcon, logor, freccia, sAlta, sBassa;; //icone
+let sciarpaIcon, sciarpaBIcon, tut1Icon, tutIcon, logor, freccia, sAlta, sBassa; //icone
 let xBarra = 20; //lunghezza barra %
 let w, h; //posizione
 let s = 0; //ellisse BONUS
@@ -29,6 +29,8 @@ let daspo_counter = 0; //variabile che conta il numero di daspo
 let incremento_daspo = 0;
 let op = 0; //opacità rettangolo daspo
 let timeout_daspo;
+
+let boulPausa=false;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // teachable machine
@@ -261,7 +263,7 @@ function draw() {
 
   //TUTORIAL sciarpa
 
-  if (i == 0 || i == 2) {
+  if ((i == 0 || i == 2)&(boulPausa==false)) {
 
     document.getElementById("tutorial").style.display = "block";
     document.getElementById("tutorial2").src = "./assets/immagini/Tutorial-sciarpa-giu.gif";
@@ -271,7 +273,7 @@ function draw() {
       text('CORRETTO', w * 10, h * 31.5);
       p_coord = 70;
     }
-  } else if (i == 1 || i == 3) {
+  } else if ((i == 1 || i == 3)&(boulPausa==false)) {
     document.getElementById("tutorial").src = "./assets/immagini/Tutorial-sciarpa-su.gif";
     document.getElementById("tutorial2").style.display = "block";
     document.getElementById("tutorial").style.display = "none";
@@ -282,6 +284,9 @@ function draw() {
       text('NON COORDINATO', w * 10, h * 31.5);
       p_coord = 70;
     }
+  } else if(boulPausa==true){
+    document.getElementById("tutorial2").style.display = "none";
+    document.getElementById("tutorial").style.display = "none";
   }
 
 
@@ -390,8 +395,9 @@ function windowResized() {
 //funzioni per attivare la pausa
 function dispPausa() {
   socket.emit("stopTimer");
+  boulPausa=true;
   document.getElementById("tutorial").style.display = "none";
-  document.getElementById("tutorial2").style.display = "none"
+  document.getElementById("tutorial2").style.display = "none";
   document.getElementById("schermo").style.backgroundColor = "#877B85";
   document.getElementById("startTifo").style.display = "block";
   document.getElementById("resetTifo").style.display = "block";
@@ -402,6 +408,7 @@ function dispPausa() {
 
 function startTifo() {
   socket.emit("startTimer");
+  boulPausa=false;
   document.getElementById("schermo").style.backgroundColor = "transparent";
   document.getElementById("startTifo").style.display = "none";
   document.getElementById("resetTifo").style.display = "none";
@@ -412,6 +419,7 @@ function startTifo() {
 
 function resetTifo() {
   socket.emit("resetTimer");
+  boulPausa=false;
   document.getElementById("schermo").style.backgroundColor = "transparent";
   document.getElementById("startTifo").style.display = "none";
   document.getElementById("resetTifo").style.display = "none";
