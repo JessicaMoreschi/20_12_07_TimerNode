@@ -243,6 +243,10 @@ function smallScreen() {
   document.getElementById("resetBtn").removeAttribute("style.left");
 }
 
+function emitTimer(data){
+  socket.emit(data);
+}
+
 function windowResized() {
   resizeCanvas(windowWidth / 100 * 49, windowHeight / 100 * 49)
 }

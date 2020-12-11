@@ -71,7 +71,10 @@ async function predict() {
 
 ////////////////COMUNICAZIONE SERVER/////////////////////////////////////
 // RICEZIONE
-socket.on("testoIn", updateTesto) //ricezione countdown
+socket.on("testoIn", updateTesto); //ricezione countdown
+socket.on("stopTimer", dispPausaSer);
+socket.on("startTimer", startTifoSer);
+socket.on("resetTimer", resetTifoSer);
 
 // UPDATE DA SERVER
 function updateTesto(dataReceived) {
@@ -419,6 +422,38 @@ function startTifo() {
 
 function resetTifo() {
   socket.emit("resetTimer");
+  boulPausa=false;
+  document.getElementById("schermo").style.backgroundColor = "transparent";
+  document.getElementById("startTifo").style.display = "none";
+  document.getElementById("resetTifo").style.display = "none";
+  document.getElementById("contTifo").style.display = "none";
+  document.getElementById("abbTifo").style.display = "none";
+  document.getElementsByClassName("iconPausa").style.display = "none";
+}
+
+function dispPausaSer() {
+  boulPausa=true;
+  document.getElementById("tutorial").style.display = "none";
+  document.getElementById("tutorial2").style.display = "none";
+  document.getElementById("schermo").style.backgroundColor = "#877B85";
+  document.getElementById("startTifo").style.display = "block";
+  document.getElementById("resetTifo").style.display = "block";
+  document.getElementById("contTifo").style.display = "block";
+  document.getElementById("abbTifo").style.display = "block";
+  document.getElementsByClassName("iconPausa").style.display = "block";
+}
+
+function startTifoSer() {
+  boulPausa=false;
+  document.getElementById("schermo").style.backgroundColor = "transparent";
+  document.getElementById("startTifo").style.display = "none";
+  document.getElementById("resetTifo").style.display = "none";
+  document.getElementById("contTifo").style.display = "none";
+  document.getElementById("abbTifo").style.display = "none";
+  document.getElementsByClassName("iconPausa").style.display = "none";
+}
+
+function resetTifoSer() {
   boulPausa=false;
   document.getElementById("schermo").style.backgroundColor = "transparent";
   document.getElementById("startTifo").style.display = "none";
