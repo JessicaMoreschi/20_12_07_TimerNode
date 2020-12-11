@@ -10,11 +10,11 @@ var testo = 180; //variabile testo this countdown
 
 var playAllVideo = false; //bouleana play/stop countdown
 let videoAction;
-let videoActionStart = 150; //inizio video Action
+let videoActionStart = 182; //inizio video Action
 let videoActionStop = 0; //fine video Action
 let videoGoal;
-let videoGoalStart = 181; //inizio video
-let videoGoalStop = 166; //fine video Goal
+let videoGoalStart = 175; //inizio video
+let videoGoalStop = 165; //fine video Goal
 let videoCorner;
 let videoCornerStart = 165; //inizio video
 let videoCornerStop = 150; //fine video Corner
